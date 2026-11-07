@@ -14,7 +14,8 @@ O README original da aplicacao esta em `docs/README-aplicacao.md`.
 |---|---|
 | Nickolas Corazza Alves | RM 562265 |
 
-**Link de Apresentação:** `https://drive.google.com/file/d/1K72tSfzghaUMfQHApWgKqmaAOWtKQZjM/view?usp=sharing`
+**Link de Apresentação:** `https://drive.google.com/file/d/1K72tSfzghaUMfQHApWgKqmaAOWtKQZjM/view?usp=sharing` 
+
 **Application do Argo CD:** `https://github.com/ncorazza12/Docker_GS/blob/main/argocd/application.yaml` (nome `store`, namespace `argocd`, repositorio `https://github.com/ncorazza12/Docker_GS.git`, pasta `k8s/`, branch `main`, `prune` e `selfHeal` ligados).
 
 ## Arquitetura
