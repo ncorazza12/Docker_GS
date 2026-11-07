@@ -6,3 +6,9 @@ __pycache__/
 *.key
 *.crt
 kubeconfig*
+# segredos nunca no Git
+*.key
+*.crt
+*.pem
+*.pfx
+secrets/

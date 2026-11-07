@@ -1,0 +1,62 @@
+# Job imutavel: roda como hook do Argo CD (Sync) e permanece apos o sucesso (E1).
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-migrate
+  namespace: store-prod
+  labels:
+    app: db-migrate
+  annotations:
+    argocd.argoproj.io/hook: Sync
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  backoffLimit: 4
+  activeDeadlineSeconds: 600
+  template:
+    metadata:
+      labels:
+        app: db-migrate
+    spec:
+      restartPolicy: Never
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: db-migrate
+          image: 367776931485.dkr.ecr.us-east-1.amazonaws.com/store-api:1.0
+          command: ["python", "-m", "app.migrate"]
+          envFrom:
+            - configMapRef:
+                name: store-api-config
+          env:
+            - name: DB_PASSWORD_FILE
+              value: /etc/db-secret/password
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: db-secret
+              mountPath: /etc/db-secret
+              readOnly: true
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: db-secret
+          secret:
+            secretName: store-db-credentials
+        - name: tmp
+          emptyDir: {}

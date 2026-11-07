@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: store-worker
+  namespace: store-prod
+  labels:
+    app: store-worker
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  # sem "replicas": quem escala (de 0 a 5) e o KEDA
+  selector:
+    matchLabels:
+      app: store-worker
+  template:
+    metadata:
+      labels:
+        app: store-worker
+    spec:
+      automountServiceAccountToken: false
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: store-worker
+          image: 367776931485.dkr.ecr.us-east-1.amazonaws.com/store-worker:1.0
+          envFrom:
+            - configMapRef:
+                name: store-api-config
+          env:
+            - name: DB_PASSWORD_FILE
+              value: /etc/db-secret/password
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: db-secret
+              mountPath: /etc/db-secret
+              readOnly: true
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: db-secret
+          secret:
+            secretName: store-db-credentials
+        - name: tmp
+          emptyDir: {}

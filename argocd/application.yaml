@@ -1,0 +1,25 @@
+# Aplicado manualmente (fora de k8s/, para o Argo CD nao gerenciar a si mesmo).
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: store
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/ncorazza12/Docker_GS.git
+    targetRevision: main
+    path: k8s
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: store-prod
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      limit: 8
+      backoff:
+        duration: 10s
+        factor: 2
+        maxDuration: 3m

@@ -1,0 +1,20 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: store-worker
+  namespace: store-prod
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  scaleTargetRef:
+    name: store-worker
+  minReplicaCount: 0
+  maxReplicaCount: 5
+  pollingInterval: 5
+  cooldownPeriod: 30
+  triggers:
+    - type: redis
+      metadata:
+        address: store-redis.store-data.svc.cluster.local:6379
+        listName: pedidos
+        listLength: "10"
