@@ -90,7 +90,7 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 docker buildx build --platform linux/amd64 --build-arg APP_VERSION=1.0 -t "$REGISTRY/store-api:1.0" --push store-api
 docker buildx build --platform linux/amd64 --build-arg APP_VERSION=2.0 -t "$REGISTRY/store-api:2.0" --push store-api
 docker buildx build --platform linux/amd64 -t "$REGISTRY/store-worker:1.0" --push store-worker
-docker buildx build --platform linux/amd64 -t "$REGISTRY/store-front:1.0" --push store-front
+docker buildx build --platform linux/amd64 -t "$REGISTRY/store-front:1.3" --push store-front
 ```
 
 Se a conta do lab mudar, trocar o numero da conta em `cluster.yaml` e nos `image:` de `k8s/`.
@@ -99,7 +99,7 @@ Se a conta do lab mudar, trocar o numero da conta em `cluster.yaml` e nos `image
 
 ```powershell
 New-Item -ItemType Directory -Force avaliacao\trivy | Out-Null
-foreach ($i in "store-api:1.0","store-worker:1.0","store-front:1.0") {
+foreach ($i in "store-api:1.0","store-worker:1.0","store-front:1.3") {
   docker pull "$REGISTRY/$i"
   trivy image --format table -o "avaliacao\trivy\$($i.Split(':')[0]).txt" "$REGISTRY/$i"
 }
