@@ -14,7 +14,7 @@ O README original da aplicacao esta em `docs/README-aplicacao.md`.
 |---|---|
 | Nickolas Corazza Alves | RM 562265 |
 
-**Application do Argo CD:** `argocd/application.yaml` (nome `store`, namespace `argocd`, repositorio `https://github.com/ncorazza12/Docker_GS.git`, pasta `k8s/`, branch `main`, `prune` e `selfHeal` ligados).
+**Application do Argo CD:** `https://github.com/ncorazza12/Docker_GS/blob/main/argocd/application.yaml` (nome `store`, namespace `argocd`, repositorio `https://github.com/ncorazza12/Docker_GS.git`, pasta `k8s/`, branch `main`, `prune` e `selfHeal` ligados).
 
 ## Arquitetura
 
@@ -182,9 +182,9 @@ Para a proxima sessao, voltar a tag para `1.0` e fazer commit antes de recriar o
 
 ### 3.6 Verificacao
 
-```bash
-# Git Bash, na raiz do repositorio
-MSYS_NO_PATHCONV=1 bash avaliacao/verifica-gs.sh https://<endereco-do-balanceador>
+```Powershell
+# Git Powershell, na raiz do repositorio
+$env:MSYS_NO_PATHCONV=1; & "C:\Program Files\Git\bin\bash.exe" avaliacao/verifica-gs.sh https://<endereco-do-balanceador>
 ```
 
 ## 4. Destruir todo o ambiente (nesta ordem)
