@@ -44,7 +44,7 @@ Internet (HTTPS) -> [Traefik / LoadBalancer AWS]            namespace traefik
 | `k8s/` | manifestos sincronizados pelo Argo CD |
 | `avaliacao/trivy/` | relatorios do scan e justificativas |
 | `avaliacao/verifica-gs.sh` | script de correcao do professor |
-| `store-api/`, `store-worker/`, `store-front/` | codigo da aplicacao (nao alterado) |
+| `store-api/`, `store-worker/`, `store-front/` | codigo da aplicacao (so o Dockerfile do store-front foi ajustado, ver secao 2) |
 
 ## Manifestos (k8s/)
 
@@ -105,6 +105,10 @@ foreach ($i in "store-api:1.0","store-worker:1.0","store-front:1.3") {
 ```
 
 Para cada CRITICAL, registrar correcao ou justificativa em `avaliacao/trivy/JUSTIFICATIVA.md`.
+
+#### Correcao dos CRITICAL do store-front
+
+O scan da `store-front:1.0` encontrou 4 CRITICAL (brotli-libs, libcrypto3, libssl3 e nginx, todos com versao corrigida). O `store-front/Dockerfile` passou a remover os pacotes `nginx-module-*`, rodar `apk upgrade` e instalar `nginx=1.28.3-r7`, e a imagem foi publicada como `store-front:1.3`. O novo scan nao mostra vulnerabilidades. Detalhes em `avaliacao/trivy/JUSTIFICATIVA.md`. Um rebuild futuro depende de esse pacote continuar no repositorio Alpine; a imagem 1.3 ja esta no ECR.
 
 ## 3. Criar o ambiente do zero (toda sessao)
 
