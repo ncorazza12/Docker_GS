@@ -2,7 +2,7 @@
 
 Cloud Developer II - Kubernetes e Serverless
 
-**Nickolas Corazza Alves - RM562265
+**Nickolas Corazza Alves - RM562265**
 
 A aplicacao (API, front-end, worker e jobs) veio pronta do professor. Este repositorio contem a **plataforma**: cluster EKS, manifestos Kubernetes, rede, armazenamento, seguranca, escalonamento e entrega por GitOps (Argo CD).
 
