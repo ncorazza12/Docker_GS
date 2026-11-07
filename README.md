@@ -12,8 +12,7 @@ O README original da aplicacao esta em `docs/README-aplicacao.md`.
 
 | Nome | RM |
 |---|---|
-| Nickolas Corazza Alves | RM ____ |
-| (preencher) | RM ____ |
+| Nickolas Corazza Alves | RM 562265 |
 
 **Application do Argo CD:** `argocd/application.yaml` (nome `store`, namespace `argocd`, repositorio `https://github.com/ncorazza12/Docker_GS.git`, pasta `k8s/`, branch `main`, `prune` e `selfHeal` ligados).
 
