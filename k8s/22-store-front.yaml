@@ -44,7 +44,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: store-front
-          image: 367776931485.dkr.ecr.us-east-1.amazonaws.com/store-front:1.0
+          image: 367776931485.dkr.ecr.us-east-1.amazonaws.com/store-front:1.3
           ports:
             - containerPort: 8080
           readinessProbe:
